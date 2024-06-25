@@ -16,17 +16,17 @@ function renderRoutes(role) {
             path="/admin/dashboard"
             element={<AdminDashboardPage />}
           ></Route>
-          <Route
-            exact
-            path="/admin/receipt"
-            element={<AdminListReceipts />}
-          ></Route>
         </Routes>
       );
       break;
     default:
       return (
         <Routes>
+          <Route
+            exact
+            path="/admin/receipt"
+            element={<AdminListReceipts />}
+          ></Route>
           <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
 
           <Route path="*" exact element={<NotFoundPage />}></Route>

@@ -208,7 +208,7 @@ const columns = [
       key: "sku",
       operation: "list",
     },
-    selected_column: false,
+    selected_column: true,
     isSortedDesc: false,
     mappingExist: false,
     mappings: {},
