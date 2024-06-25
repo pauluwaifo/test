@@ -8,8 +8,8 @@ All this task must be done in 1 day
 - in src/utils/MkdSDK.jsx implement Line 91
 - in src/pages/AdminLoginPage.jsx implement Line 30
 - once login successful, call snackbar component to show logged in toast. DONT use 3rd party library
-- in src/authContext.jsx implement 16
-- in src/authContext.jsx implement 40 to check if token still valid
+- in src/context/Auth/AuthContext.jsx implement 16
+- in src/context/Auth/AuthContext.jsx implement 40 to check if token still valid
 - There's a bug that it flickers Page Not Found
 - once logged in go to dashboard page like figma file
   https://www.figma.com/file/veiESwD61KJBa7BpEHtbdl/react-task-2?node-id=1086%3A15525
@@ -22,6 +22,56 @@ All this task must be done in 1 day
 
 - Please READ SDK file and reuse code when you can. DO NOT REINVENT THE WHEEL.
 - Use React Drag and drop library https://react-dnd.github.io/react-dnd/about to be able to rearrange the rows and columns in the table in dashboard. On Refresh, the columns go back to default
+
+### Table Task
+
+- in src/pages/AdminListReceipts.jsx - we have a table listing receipts
+
+1.  fix the bind issue in src/components/MkdListTable/MkdListTableBindOperations.jsx - all //TO DO
+    For example
+      <!-- {
+        edit: {
+                show: true,
+                // action: (ids) => navigate(`/admin/edit-receipts/${ids[0]}`),
+                multiple: false,
+                locations: ["buttons", "dropdown"],
+                icon: <EditIcon2 />,
+                bind: {
+                  column: "receipt_status",
+                  action: "hide",
+                  operator: operations.EQUAL,
+                  ifValue: 1,
+                },
+              }
+              } -->
+
+              the edit action binds via the bind property to a column "receipt_status"
+              if the value of receipt_status is 1 then the edit should be hidden, i.e not shown
+
+2.  in src/components/MkdListTable/MkdListTableRow.jsx each column has a format it should be rendered in
+
+    - "line_items" and "receipt_charges" have the list property `true`, listType: `json|object_array` could be `json|number_array` or `json|string_array` but in this case it is the `json|object_array`
+
+    - using the action which tells you what key in the array of objects you need to work on
+      operation is either to `list` all the values and return an array or `add` to add all the values of the key and return the result
+
+- src/utils/utils.jsx - Line 179
+  <!-- Sample = {
+    header: "receipt_charges",
+    accessor: "receipt_charges",
+    isSorted: true,
+    list: true,
+    limit: 6,
+    listType: "json|object_array",
+    action: {
+      key: "total_charges",
+      operation: "add",
+    },
+    selected_column: true,
+    isSortedDesc: false,
+    mappingExist: false,
+    mappings: {},
+  }, -->
 
 ## Login
 

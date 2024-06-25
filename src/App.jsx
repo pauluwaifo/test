@@ -1,6 +1,6 @@
-import AuthProvider from "./authContext";
-import GlobalProvider from "./globalContext";
 import { BrowserRouter as Router } from "react-router-dom";
+import { AuthProvider } from "Context/Auth";
+import { GlobalProvider } from "Context/Global";
 import Main from "./main";
 
 function App() {

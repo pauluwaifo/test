@@ -1,10 +1,11 @@
 import React from "react";
-import { AuthContext } from "./authContext";
 import { Routes, Route, Navigate } from "react-router-dom";
-import SnackBar from "./components/SnackBar";
-import AdminDashboardPage from "./pages/AdminDashboardPage";
-import AdminLoginPage from "./pages/AdminLoginPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import SnackBar from "Components/SnackBar";
+import { AuthContext } from "Context/Auth";
+import AdminLoginPage from "Pages/AdminLoginPage";
+import NotFoundPage from "Pages/NotFoundPage";
+import AdminDashboardPage from "Pages/AdminDashboardPage";
+import AdminListReceipts from "Pages/AdminListReceipts";
 
 function renderRoutes(role) {
   switch (role) {
@@ -15,6 +16,11 @@ function renderRoutes(role) {
             path="/admin/dashboard"
             element={<AdminDashboardPage />}
           ></Route>
+          <Route
+            exact
+            path="/admin/receipt"
+            element={<AdminListReceipts />}
+          ></Route>
         </Routes>
       );
       break;
@@ -22,6 +28,7 @@ function renderRoutes(role) {
       return (
         <Routes>
           <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
+
           <Route path="*" exact element={<NotFoundPage />}></Route>
         </Routes>
       );
