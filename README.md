@@ -23,31 +23,31 @@ All this task must be done in 1 day
 - Please READ SDK file and reuse code when you can. DO NOT REINVENT THE WHEEL.
 - Use React Drag and drop library https://react-dnd.github.io/react-dnd/about to be able to rearrange the rows and columns in the table in dashboard. On Refresh, the columns go back to default
 
-### Table Task
+- in src/pages/AdminListReceipts.jsx - there is a table listing receipts
 
-- in src/pages/AdminListReceipts.jsx - we have a table listing receipts
-
-1.  fix the bind issue in src/components/MkdListTable/MkdListTableBindOperations.jsx - all //TO DO
-    For example
-      <pre>
-        edit: {
-                show: true,
-                // action: (ids) => navigate(`/admin/edit-receipts/${ids[0]}`),
-                multiple: false,
-                locations: ["buttons", "dropdown"],
-                icon: <EditIcon2 />,
-                bind: {
-                  column: "receipt_status",
-                  action: "hide",
-                  operator: operations.EQUAL,
-                  ifValue: 1,
-                },
-              }
-          </pre>
+  - fix the bind issue in src/components/MkdListTable/MkdListTableBindOperations.jsx - all //TO DO
+    the `MkdListTableV2` component has actions props which is an object of key:value pair of action definitions
+    For example the edit action,
+    find other actions with the `bind` property
+    <pre>
+    edit: {
+    show: true,
+    action: (ids)=> {},
+    multiple: false,
+    locations: ["buttons", "dropdown"],
+    icon: <EditIcon2 />,
+    bind: {
+    column: "receipt_status",
+    action: "hide",
+    operator: operations.EQUAL,
+    ifValue: 1,
+    },
+    }
+    </pre>
 
     > the edit action binds via the bind property to a column "receipt_status", if the value of receipt_status is 1 then the edit should be hidden, i.e not shown
 
-2.  in src/components/MkdListTable/MkdListTableRow.jsx each column has a format it should be rendered in
+  - in src/components/MkdListTable/MkdListTableRow.jsx each column has a format it should be rendered in
 
     - "line_items" and "receipt_charges" have the list property `true`, listType: `json|object_array` could be `json|number_array` or `json|string_array` but in this case it is the `json|object_array`
 
