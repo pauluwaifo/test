@@ -388,7 +388,7 @@ const AdminListReceipts = () => {
             bind: {
               column: "receipt_status",
               action: "hide",
-              operator: "eq",
+              operator: operations.EQUAL,
               ifValue: 0,
             },
           },
@@ -407,7 +407,7 @@ const AdminListReceipts = () => {
             bind: {
               column: "receipt_status",
               action: "hide",
-              operator: "eq",
+              operator: operations.EQUAL,
               ifValue: 1,
             },
           },
