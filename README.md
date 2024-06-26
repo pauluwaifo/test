@@ -29,7 +29,7 @@ All this task must be done in 1 day
 
 1.  fix the bind issue in src/components/MkdListTable/MkdListTableBindOperations.jsx - all //TO DO
     For example
-      <!-- {
+      <pre>
         edit: {
                 show: true,
                 // action: (ids) => navigate(`/admin/edit-receipts/${ids[0]}`),
@@ -43,35 +43,35 @@ All this task must be done in 1 day
                   ifValue: 1,
                 },
               }
-              } -->
+          </pre>
 
-              the edit action binds via the bind property to a column "receipt_status"
-              if the value of receipt_status is 1 then the edit should be hidden, i.e not shown
+    > the edit action binds via the bind property to a column "receipt_status", if the value of receipt_status is 1 then the edit should be hidden, i.e not shown
 
 2.  in src/components/MkdListTable/MkdListTableRow.jsx each column has a format it should be rendered in
 
     - "line_items" and "receipt_charges" have the list property `true`, listType: `json|object_array` could be `json|number_array` or `json|string_array` but in this case it is the `json|object_array`
 
-    - using the action which tells you what key in the array of objects you need to work on
-      operation is either to `list` all the values and return an array or `add` to add all the values of the key and return the result
+    - write the algorithm in src/utils/utils.jsx - Line 179 using the column format and action in format, which tells you what key in the array of objects you need to work on.
 
-- src/utils/utils.jsx - Line 179
-  <!-- Sample = {
-    header: "receipt_charges",
-    accessor: "receipt_charges",
-    isSorted: true,
-    list: true,
-    limit: 6,
-    listType: "json|object_array",
-    action: {
-      key: "total_charges",
-      operation: "add",
-    },
-    selected_column: true,
-    isSortedDesc: false,
-    mappingExist: false,
-    mappings: {},
-  }, -->
+      > operation is either to `list` all the values and return an array or `add` to add all the values of the key and return the result
+
+      <pre> Sample Column Format = {
+      header: "receipt_charges",
+        accessor: "receipt_charges",
+        isSorted: true,
+        list: true,
+        limit: 6,
+        listType: "json|object_array",
+        action: {
+          key: "total_charges",
+          operation: "add",
+        },
+        selected_column: true,
+        isSortedDesc: false,
+        mappingExist: false,
+        mappings: {},
+      },
+      </pre>
 
 ## Login
 
