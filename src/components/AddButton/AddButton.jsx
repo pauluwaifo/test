@@ -37,7 +37,7 @@ const AddButton = ({
       onClick={onClickHandle}
       className={`${animate && "animate-wiggle"} ${
         classes.button
-      } relative flex h-[3rem] cursor-pointer  items-center justify-center gap-2 overflow-hidden rounded-[.625rem] border border-primary bg-primary px-[.625rem] py-2 font-inter text-sm font-medium leading-loose tracking-wide text-white ${className}`}
+      } relative flex h-[3rem] cursor-pointer  items-center justify-center gap-2 overflow-hidden rounded-[.625rem] border border-[#4F46E5] bg-[#4F46E5] px-[.625rem] py-2 font-inter text-sm font-medium leading-loose tracking-wide text-white ${className}`}
     >
       <>
         <MoonLoader

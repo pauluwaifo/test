@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MkdSDK from "Utils/MkdSDK";
 import { useNavigate } from "react-router-dom";
 import { AuthContext, tokenExpireError } from "Context/Auth";
@@ -8,10 +8,16 @@ import {
   setGLobalProperty,
 } from "Context/Global";
 import { MkdListTableV2 } from "Components/MkdListTable";
-import { EditIcon2, TrashIcon } from "Assets/svgs";
+import {
+  CircleCheckMarkIcon,
+  EditIcon2,
+  RotateIcon,
+  TrashIcon,
+} from "Assets/svgs";
 import { AiFillEye } from "react-icons/ai";
 import { operations } from "Components/MkdListTable/MkdListTableBindOperations";
 import { receiptData } from "Utils/data";
+import { ActionConfirmationModal } from "Components/ActionConfirmationModal";
 
 let sdk = new MkdSDK();
 
@@ -309,12 +315,29 @@ const AdminListReceipts = () => {
     dispatch: globalDispatch,
     state: { confirmRequest },
   } = React.useContext(GlobalContext);
+  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [localReceiptData, setLocalReceiptData] = React.useState([]);
+  const [showOpenModal, setShowOpenModal] = React.useState(false);
+  const [showCloseModal, setShowCloseModal] = React.useState(false);
+
+  const onToggleModal = (modal, toggle, ids = []) => {
+    switch (modal) {
+      case "close":
+        // TO DO
+        setSelectedItems(ids);
+        break;
+      case "open":
+        // TO DO
+        setSelectedItems(ids);
+        break;
+    }
+  };
 
   return (
     <div className="overflow-x-auto  rounded bg-white p-5 shadow">
       <MkdListTableV2
         defaultColumns={columns}
-        externalData={receiptData}
+        externalData={localReceiptData}
         useExternalData={true}
         tableRole={"admin"}
         table={"receipts"}
@@ -355,6 +378,39 @@ const AdminListReceipts = () => {
               ifValue: 1,
             },
           },
+          close: {
+            show: true,
+            action: (ids) => onToggleModal("close", true, ids),
+            multiple: true,
+            locations: ["buttons"],
+            children: "Close",
+            icon: <CircleCheckMarkIcon className="h-[.955rem] w-[.955rem]" />,
+            bind: {
+              column: "receipt_status",
+              action: "hide",
+              operator: "eq",
+              ifValue: 0,
+            },
+          },
+          open: {
+            show: true,
+            action: (ids) => onToggleModal("open", true, ids),
+            multiple: true,
+            locations: ["buttons"],
+            children: "Open",
+            icon: (
+              <RotateIcon
+                className="h-[.955rem] w-[.955rem]"
+                stroke={"#717179"}
+              />
+            ),
+            bind: {
+              column: "receipt_status",
+              action: "hide",
+              operator: "eq",
+              ifValue: 1,
+            },
+          },
           add: {
             show: false,
             // action: () => navigate("/admin/add-receipts"),
@@ -372,6 +428,47 @@ const AdminListReceipts = () => {
         actionPostion={[`buttons`]}
         // allowEditing
         refreshRef={refreshRef}
+      />
+
+      <ActionConfirmationModal
+        isOpen={showCloseModal}
+        title="Close Receipt"
+        modalClasses={{
+          modalDialog:
+            "max-h-[90%] min-h-[12rem] overflow-y-auto !w-full md:!w-[29.0625rem]",
+          modal: "h-full",
+        }}
+        data={{ id: selectedItems[0] }}
+        onClose={() => onToggleModal("close", false, [])}
+        onSuccess={(data) => {
+          // TO DO - Update the receipt_status to closed here
+          onToggleModal("close", false, []);
+        }}
+        action="close"
+        mode="manual"
+        multiple={false}
+        table="receipts"
+        inputConfirmation={false}
+      />
+      <ActionConfirmationModal
+        isOpen={showOpenModal}
+        title="Open Receipt"
+        modalClasses={{
+          modalDialog:
+            "max-h-[90%] min-h-[12rem] overflow-y-auto !w-full md:!w-[29.0625rem]",
+          modal: "h-full",
+        }}
+        data={{ id: selectedItems[0] }}
+        onClose={() => onToggleModal("open", false, [])}
+        onSuccess={(data) => {
+          // TO DO - Update the receipt_status to open here
+          onToggleModal("open", false, []);
+        }}
+        action="open"
+        mode="manual"
+        multiple={false}
+        table="receipts"
+        inputConfirmation={false}
       />
     </div>
   );

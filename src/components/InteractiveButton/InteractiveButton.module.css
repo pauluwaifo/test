@@ -1,6 +1,6 @@
 .button {
   position: relative;
-  /* border: none; */
+  border: none;
   color: #ffffff;
   text-align: center;
   -webkit-transition-duration: 0.4s; /* Safari */
@@ -8,7 +8,7 @@
   text-decoration: none;
   overflow: hidden;
   cursor: pointer;
-  /* background-color:#4F46E5; */
+  /* background-color: #4F46E5; */
 }
 .button:after {
   content: "";

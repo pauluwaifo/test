@@ -36,7 +36,7 @@ const MkdListTableRowDropdown = ({
                             actions[key]?.action([row[actionId]]);
                           }
                         }}
-                        className={`!h-[2rem] !w-[2.0713rem] !border-soft-200 !bg-white`}
+                        className={`!h-[2rem] !w-[2.0713rem] !border-gray-200 !bg-white`}
                       >
                         {actions[key]?.icon
                           ? actions[key]?.icon
@@ -63,7 +63,7 @@ const MkdListTableRowDropdown = ({
                     //   actions[key]?.action([row[actionId]]);
                     // }
                   }}
-                  className={`!h-[2rem] !w-[2.0713rem] !border-soft-200 !bg-white`}
+                  className={`!h-[2rem] !w-[2.0713rem] !border-gray-200 !bg-white`}
                 >
                   {actions[key]?.icon
                     ? actions[key]?.icon
