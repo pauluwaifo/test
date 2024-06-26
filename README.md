@@ -46,7 +46,7 @@ All this task must be done in 1 day
     },
     }
     </pre>
-  - complete the open and close action feature, update the status to open and close to see the above binding work, also not that close action is meant to show open if status is open, and open is only meant to show is status is closed - `lines -> 326,330,444,464`
+  - complete the open and close action feature, update the status to open and close to see the above binding work, also not that close action is meant to show if status is open, and open is only meant to show if status is closed - `lines -> 326,330,444,464`
 
     > the edit action binds via the bind property to a column "receipt_status", if the value of receipt_status is 1 then the edit should be hidden, i.e not shown
 
