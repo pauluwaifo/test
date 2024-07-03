@@ -176,5 +176,65 @@ export const mappingValues = {
 export function truncate(text, length = null) {}
 
 export function processList(value, options, globalDispatch, authDispatch) {
-  // TO DO
+  // TO DOl
+  // updated
+  let parsedValue;
+  try {
+    parsedValue = JSON.parse(value);
+  } catch (error) {
+    console.error("Failed to parse JSON", error);
+    return value;
+  }
+
+  // Ensure parsedValue is an array
+  if (!Array.isArray(parsedValue)) {
+    console.error("Parsed value is not an array");
+    return value;
+  }
+
+  // Check the listType from options
+  const { listType, action } = options;
+  let processedValue;
+
+  switch (listType) {
+    case "json|object_array":
+      processedValue = parsedValue.map((item, index) => {
+        if (typeof item === "object" && item !== null) {
+          // Optionally dispatch actions based on the item and action
+          if (globalDispatch) {
+            globalDispatch({ type: "PROCESS_ITEM", payload: item });
+          }
+          if (authDispatch) {
+            authDispatch({ type: "PROCESS_ITEM", payload: item });
+          }
+
+          return (
+            <div key={index}>
+              {action ? item[action] : JSON.stringify(item)}
+            </div>
+          );
+        } else {
+          return <div key={index}>{JSON.stringify(item)}</div>;
+        }
+      });
+      break;
+
+    case "json|number_array":
+      processedValue = parsedValue.map((item, index) => (
+        <div key={index}>{item}</div>
+      ));
+      break;
+
+    case "json|string_array":
+      processedValue = parsedValue.map((item, index) => (
+        <div key={index}>{item}</div>
+      ));
+      break;
+
+    default:
+      processedValue = value;
+      break;
+  }
+
+  return <div>{processedValue}</div>;
 }
