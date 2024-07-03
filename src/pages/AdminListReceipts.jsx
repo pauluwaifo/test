@@ -21,6 +21,7 @@ import { ActionConfirmationModal } from "Components/ActionConfirmationModal";
 
 let sdk = new MkdSDK();
 
+
 const columns = [
   {
     header: "Row",
@@ -319,6 +320,10 @@ const AdminListReceipts = () => {
   const [localReceiptData, setLocalReceiptData] = React.useState([]);
   const [showOpenModal, setShowOpenModal] = React.useState(false);
   const [showCloseModal, setShowCloseModal] = React.useState(false);
+
+  useEffect(() => {
+    setLocalReceiptData(receiptData)
+  }, [])
 
   const onToggleModal = (modal, toggle, ids = []) => {
     switch (modal) {
