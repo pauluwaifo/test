@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import MkdSDK from "Utils/MkdSDK";
 import { AuthContext } from "Context/Auth";
+import SnackBar from "Components/SnackBar";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const AdminLoginPage = () => {
   const schema = yup
@@ -14,12 +17,13 @@ const AdminLoginPage = () => {
     })
     .required();
 
+  const [success, setSuccess] = useState(false);
+  const [loginError, setLoginError] = useState(false);
   const { dispatch } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -28,10 +32,35 @@ const AdminLoginPage = () => {
   const onSubmit = async (data) => {
     let sdk = new MkdSDK();
     //TODO
+    // updated code
+    try {
+      const result = await sdk.login(data.email, data.password, "admin");
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: result.user_id,
+          token: result.token,
+          role: result.role,
+        },
+      });
+      if (result) {
+        navigate("/admin/dashboard");
+      } 
+        
+      
+    } catch (err) {
+      console.log(err);
+      setLoginError(true);
+    }
   };
+
+  setTimeout(() => {
+  setLoginError(false)
+  }, 5000, [loginError])
 
   return (
     <div className="w-full max-w-xs mx-auto">
+      {success && <p>success</p>}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-8 "
@@ -81,6 +110,9 @@ const AdminLoginPage = () => {
           />
         </div>
       </form>
+      {loginError && (
+        <p className="text-red-500 text-xs italic">Wrong password or email</p>
+      )}
     </div>
   );
 };

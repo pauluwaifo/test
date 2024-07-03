@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import SnackBar from "Components/SnackBar";
 import { AuthContext } from "Context/Auth";
 import AdminLoginPage from "Pages/AdminLoginPage";
@@ -13,6 +13,7 @@ function renderRoutes(role) {
       return (
         <Routes>
           <Route
+          exact
             path="/admin/dashboard"
             element={<AdminDashboardPage />}
           ></Route>
@@ -27,8 +28,7 @@ function renderRoutes(role) {
     default:
       return (
         <Routes>
-          <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
-
+          <Route path="/admin/login" element={<AdminLoginPage />}></Route>
           <Route path="*" exact element={<NotFoundPage />}></Route>
         </Routes>
       );
@@ -37,7 +37,29 @@ function renderRoutes(role) {
 }
 
 function Main() {
-  const { state } = React.useContext(AuthContext);
+  const { state, dispatch } = React.useContext(AuthContext);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (user && token && role) {
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: user,
+          token: token,
+          role: role,
+        },
+      });
+      nav("/admin/dashboard");
+    } else {
+      nav("/admin/login");
+    }
+
+  }, [dispatch, nav]);
 
   return (
     <div className="h-full">

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 export default function MkdSDK() {
   this._baseurl = "https://reacttask.mkdlabs.com";
   this._project_id = "reacttask";
@@ -12,9 +13,39 @@ export default function MkdSDK() {
   this.setTable = function (table) {
     this._table = table;
   };
-  
+
   this.login = async function (email, password, role) {
     //TODO
+    // updated code
+    try {
+      const res = await fetch(
+        `https://reacttask.mkdlabs.com/v2/api/lambda/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-project":
+              "cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw==",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            role,
+          }),
+        }
+      );
+      const result = await res.json();
+
+      console.log(result);
+
+      if (res.ok && result.token) {
+        return result
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   this.getHeader = function () {
@@ -27,7 +58,7 @@ export default function MkdSDK() {
   this.baseUrl = function () {
     return this._baseurl;
   };
-  
+
   this.callRestAPI = async function (payload, method) {
     const header = {
       "Content-Type": "application/json",
@@ -55,7 +86,7 @@ export default function MkdSDK() {
           throw new Error(jsonGet.message);
         }
         return jsonGet;
-      
+
       case "PAGINATE":
         if (!payload.page) {
           payload.page = 1;
@@ -84,10 +115,39 @@ export default function MkdSDK() {
       default:
         break;
     }
-  };  
+  };
 
   this.check = async function (role) {
     //TODO
+    // updated code
+    try {
+      const res = await fetch(
+        "https://reacttask.mkdlabs.com/v2/api/lambda/check",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "x-project":
+              "cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw==",
+          },
+          body: { role: role },
+        }
+      );
+
+      const result = await res.json();
+
+      if (res.ok) {
+        console.log("Response:", result);
+        localStorage.setItem(role, role);
+        return result;
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      throw err;
+    }
   };
 
   return this;
