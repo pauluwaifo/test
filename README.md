@@ -27,7 +27,7 @@ All this task must be done in 1 day
 
   - fix the list table, the localReceiptData need data from src/utils/data.jsx, for some reason it is not getting that data
 
-  - fix the bind issue in src/components/MkdListTable/MkdListTableBindOperations.jsx - all //TO DO
+  
     the `MkdListTableV2` component has actions props which is an object of key:value pair of action definitions
     For example the edit action,
     find other actions with the `bind` property
